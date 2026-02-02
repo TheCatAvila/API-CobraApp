@@ -1,0 +1,6 @@
+@API_CobraApp_HostAddress = http://localhost:5229
+
+GET {{API_CobraApp_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
