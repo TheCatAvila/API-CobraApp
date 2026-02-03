@@ -1,6 +1,9 @@
 ﻿using API_CobraApp.Application.Dtos.Auth;
 using API_CobraApp.Application.Features.Auth.ChangePassword;
+using API_CobraApp.Application.Features.Auth.ForgotPassword;
+using API_CobraApp.Application.Features.Auth.ResetPassword;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -39,6 +42,36 @@ namespace API_CobraApp.Controllers
                 new ChangePasswordCommand(userId, dto));
 
             return NoContent(); // 204
+        }
+
+        [AllowAnonymous]
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword(
+        [FromBody] ForgotPasswordDto dto)
+        {
+            await _mediator.Send(new ForgotPasswordCommand(dto.Email));
+
+            return Ok(new
+            {
+                message = "Si el correo existe, se enviará un código"
+            });
+        }
+
+        [AllowAnonymous]
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword(
+            [FromBody] ResetPasswordDto dto)
+        {
+            await _mediator.Send(new ResetPasswordCommand(
+                dto.Email,
+                dto.Code,
+                dto.NewPassword
+            ));
+
+            return Ok(new
+            {
+                message = "Contraseña actualizada correctamente"
+            });
         }
     }
 }
