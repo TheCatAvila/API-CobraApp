@@ -1,7 +1,10 @@
 ﻿using API_CobraApp.Application.Dtos.Users;
 using API_CobraApp.Application.Features.Users.Create;
+using API_CobraApp.Application.Features.Users.Delete;
 using API_CobraApp.Application.Features.Users.GetAll;
 using API_CobraApp.Application.Features.Users.GetById;
+using API_CobraApp.Application.Features.Users.Patch;
+using API_CobraApp.Application.Features.Users.Update;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -47,5 +50,31 @@ namespace API_CobraApp.Controllers
 
             return Ok(user);
         }
-    }
+
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult<UserDto>> Update(int id, [FromBody] UpdateUserDto dto)
+        {
+            var result = await _mediator.Send(
+                new UpdateUserCommand(id, dto));
+
+            return Ok(result);
+        }
+
+        [HttpPatch("{id:int}")]
+        public async Task<ActionResult<UserDto>> Patch(int id, [FromBody] PatchUserDto dto)
+        {
+            var result = await _mediator.Send(
+                new PatchUserCommand(id, dto));
+
+            return Ok(result);
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _mediator.Send(new DeleteUserCommand(id));
+            return NoContent(); // 204
+        }
+
+}
 }
