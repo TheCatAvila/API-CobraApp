@@ -20,6 +20,7 @@ namespace API_CobraApp.Controllers
             _mediator = mediator;
         }
 
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<ActionResult<AuthResponseDto>> Login(
             [FromBody] LoginDto dto)
@@ -31,6 +32,7 @@ namespace API_CobraApp.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpPost("change-password")]
         public async Task<IActionResult> ChangePassword(
             [FromBody] ChangePasswordDto dto)

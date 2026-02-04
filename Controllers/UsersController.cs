@@ -22,6 +22,7 @@ namespace API_CobraApp.Controllers
             _mediator = mediator;
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<UserDto>> Create(
             [FromBody] CreateUserDto dto)
@@ -40,6 +41,7 @@ namespace API_CobraApp.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpGet("{id:int}")]
         public async Task<ActionResult<UserDto>> GetById(int id)
         {
@@ -51,6 +53,7 @@ namespace API_CobraApp.Controllers
             return Ok(user);
         }
 
+        [Authorize]
         [HttpPut("{id:int}")]
         public async Task<ActionResult<UserDto>> Update(int id, [FromBody] UpdateUserDto dto)
         {
@@ -60,6 +63,7 @@ namespace API_CobraApp.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpPatch("{id:int}")]
         public async Task<ActionResult<UserDto>> Patch(int id, [FromBody] PatchUserDto dto)
         {
@@ -69,6 +73,7 @@ namespace API_CobraApp.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {

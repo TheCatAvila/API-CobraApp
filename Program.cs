@@ -3,6 +3,7 @@ using API_CobraApp.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +13,32 @@ builder.Services.AddControllers();
 
 // Swagger + JWT
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    const string securitySchema = "Bearer";
+
+    // Definir el esquema
+    var scheme = new OpenApiSecurityScheme
+    {
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Name = "Authorization",
+        Description = "Ingrese 'Bearer {token}'"
+    };
+
+    options.AddSecurityDefinition(securitySchema, scheme);
+
+    // Agregar requisito de seguridad usando el nuevo tipo de referencia
+    options.AddSecurityRequirement(document =>
+    {
+        return new OpenApiSecurityRequirement
+        {
+            [new OpenApiSecuritySchemeReference(securitySchema, document)] = new List<string>()
+        };
+    });
+});
 
 // Database
 builder.Services.AddDbContext<AppDbContext>(options =>
