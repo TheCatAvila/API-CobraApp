@@ -1,12 +1,23 @@
-﻿using API_CobraApp.Application.Features.Users.Create;
+﻿using API_CobraApp.Application.Dtos.Users;
+using API_CobraApp.Application.Features.Users.Create;
 using API_CobraApp.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using API_CobraApp.Application.Behaviors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using System.Text;
+using FluentValidation;
+
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddValidatorsFromAssemblyContaining<CreateUserCommandValidator>();
+
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssembly(typeof(CreateUserCommand).Assembly);
+    cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
+});
 
 // Controllers
 builder.Services.AddControllers();
