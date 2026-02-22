@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
 
-namespace API_CobraApp.Application.Features.Users.Create
+namespace API_CobraApp.Application.Features.Users.Update
 {
-    public class CreateUserCommandValidator
-        : AbstractValidator<CreateUserCommand>
+    public class UpdateUserCommandValidator
+        : AbstractValidator<UpdateUserCommand>
     {
-        public CreateUserCommandValidator()
+        public UpdateUserCommandValidator()
         {
             RuleFor(x => x.User.FirstName)
                 .NotEmpty().WithMessage("First name is required.")
@@ -21,13 +21,6 @@ namespace API_CobraApp.Application.Features.Users.Create
                 .NotEmpty().WithMessage("Email is required.")
                 .EmailAddress().WithMessage("Email format is invalid.");
 
-            RuleFor(x => x.User.Password)
-                .NotEmpty().WithMessage("Password is required.")
-                .MinimumLength(8).WithMessage("Password must be at least {MinLength} characters.");
-
-            RuleFor(x => x.User.LinkedCode)
-                .NotEmpty().WithMessage("Linked code is required.")
-                .MaximumLength(50).WithMessage("Linked code must not exceed {MaxLength} characters.");
         }
     }
 }

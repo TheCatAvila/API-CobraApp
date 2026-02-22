@@ -5,6 +5,6 @@ namespace API_CobraApp.Application.Features.Users.Update
 {
     public record UpdateUserCommand(
         int Id,
-        UpdateUserDto Dto
+        UpdateUserDto User
     ) : IRequest<UserDto>;
 }

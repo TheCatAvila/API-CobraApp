@@ -26,9 +26,9 @@ namespace API_CobraApp.Application.Features.Users.Update
                 throw new KeyNotFoundException("Usuario no encontrado");
 
             // Actualizamos campos
-            user.FirstName = request.Dto.FirstName;
-            user.LastName = request.Dto.LastName;
-            user.Email = request.Dto.Email;
+            user.FirstName = request.User.FirstName;
+            user.LastName = request.User.LastName;
+            user.Email = request.User.Email;
 
             await _context.SaveChangesAsync(cancellationToken);
 

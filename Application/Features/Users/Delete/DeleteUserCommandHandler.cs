@@ -22,7 +22,7 @@ namespace API_CobraApp.Application.Features.Users.Delete
                 .FirstOrDefaultAsync(u => u.Id == request.Id, cancellationToken);
 
             if (user is null)
-                throw new KeyNotFoundException("Usuario no encontrado");
+                throw new KeyNotFoundException("User not found");
 
             _context.Users.Remove(user);
 
