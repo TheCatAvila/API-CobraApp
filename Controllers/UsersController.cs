@@ -23,7 +23,6 @@ namespace API_CobraApp.Controllers
             _mediator = mediator;
         }
 
-        [Authorize]
         [HttpPost]
         public async Task<ActionResult<ApiResponse<UserDto>>> Create(
             [FromBody] CreateUserDto dto)

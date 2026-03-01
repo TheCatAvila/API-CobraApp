@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using API_CobraApp.Application.Behaviors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using API_CobraApp.Application.Common.Interfaces;
+using API_CobraApp.Infrastructure.Services;
 using Microsoft.OpenApi;
 using System.Text;
 using FluentValidation;
@@ -78,6 +80,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             )
         };
     });
+
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<IEmailSender, BrevoEmailSender>();
 
 // Build app
 var app = builder.Build();

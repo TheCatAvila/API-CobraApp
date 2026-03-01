@@ -1,4 +1,5 @@
-﻿using API_CobraApp.Application.Dtos.Auth;
+﻿using API_CobraApp.Application.Common.Responses;
+using API_CobraApp.Application.Dtos.Auth;
 using API_CobraApp.Application.Features.Auth.ChangePassword;
 using API_CobraApp.Application.Features.Auth.ForgotPassword;
 using API_CobraApp.Application.Features.Auth.ResetPassword;
@@ -22,20 +23,23 @@ namespace API_CobraApp.Controllers
 
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<ActionResult<AuthResponseDto>> Login(
+        public async Task<ActionResult<ApiResponse<AuthResponseDto>>> Login(
             [FromBody] LoginDto dto)
         {
             var result = await _mediator.Send(
                 new LoginCommand(dto)
             );
 
-            return Ok(result);
+            return Ok(ApiResponse<AuthResponseDto>.SuccessResponse(
+                result,
+                "Login successful"
+            ));
         }
 
         [Authorize]
         [HttpPost("change-password")]
-        public async Task<IActionResult> ChangePassword(
-            [FromBody] ChangePasswordDto dto)
+        public async Task<ActionResult<ApiResponse<object>>> ChangePassword(
+    [FromBody] ChangePasswordDto dto)
         {
             var userId = int.Parse(
                 User.FindFirstValue(ClaimTypes.NameIdentifier)!);
@@ -43,25 +47,28 @@ namespace API_CobraApp.Controllers
             await _mediator.Send(
                 new ChangePasswordCommand(userId, dto));
 
-            return NoContent(); // 204
+            return Ok(ApiResponse<object>.SuccessResponse(
+                null,
+                "Password changed successfully"
+            ));
         }
 
         [AllowAnonymous]
         [HttpPost("forgot-password")]
-        public async Task<IActionResult> ForgotPassword(
-        [FromBody] ForgotPasswordDto dto)
+        public async Task<ActionResult<ApiResponse<object>>> ForgotPassword(
+            [FromBody] ForgotPasswordDto dto)
         {
             await _mediator.Send(new ForgotPasswordCommand(dto.Email));
 
-            return Ok(new
-            {
-                message = "Si el correo existe, se enviará un código"
-            });
+            return Ok(ApiResponse<object>.SuccessResponse(
+                null,
+                "Si el correo existe, se enviará un código"
+            ));
         }
 
         [AllowAnonymous]
         [HttpPost("reset-password")]
-        public async Task<IActionResult> ResetPassword(
+        public async Task<ActionResult<ApiResponse<object>>> ResetPassword(
             [FromBody] ResetPasswordDto dto)
         {
             await _mediator.Send(new ResetPasswordCommand(
@@ -70,10 +77,10 @@ namespace API_CobraApp.Controllers
                 dto.NewPassword
             ));
 
-            return Ok(new
-            {
-                message = "Contraseña actualizada correctamente"
-            });
+            return Ok(ApiResponse<object>.SuccessResponse(
+                null,
+                "Contraseña actualizada correctamente"
+            ));
         }
     }
 }

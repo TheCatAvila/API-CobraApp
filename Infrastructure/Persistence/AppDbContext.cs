@@ -9,6 +9,7 @@ namespace API_CobraApp.Infrastructure.Persistence
             : base(options) { }
 
         public DbSet<User> Users => Set<User>();
+        public DbSet<PasswordReset> PasswordResets { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

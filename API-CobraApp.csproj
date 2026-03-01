@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>API_CobraApp</RootNamespace>
+    <UserSecretsId>08cbcf08-f755-4280-9e03-b53d59eec0a6</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
