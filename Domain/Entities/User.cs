@@ -8,5 +8,8 @@
         public string Email { get; set; } = null!;
         public string? PasswordHash { get; set; }
         public string LinkedCode { get; set; } = null!;
+
+        public ICollection<UserExternal> UserExternals { get; set; }
+            = new List<UserExternal>();
     }
 }

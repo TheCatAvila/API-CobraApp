@@ -1,8 +1,10 @@
 ﻿using API_CobraApp.Application.Common.Responses;
 using API_CobraApp.Application.Dtos.Auth;
+using API_CobraApp.Application.Dtos.Auth.ExternalProviders;
 using API_CobraApp.Application.Features.Auth.ChangePassword;
 using API_CobraApp.Application.Features.Auth.ForgotPassword;
 using API_CobraApp.Application.Features.Auth.ResetPassword;
+using API_CobraApp.Application.Features.Auth.ExternalProviders.Google;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -80,6 +82,20 @@ namespace API_CobraApp.Controllers
             return Ok(ApiResponse<object>.SuccessResponse(
                 null,
                 "Contraseña actualizada correctamente"
+            ));
+        }
+
+        [AllowAnonymous]
+        [HttpPost("google")]
+        public async Task<ActionResult<ApiResponse<AuthResponseDto>>> GoogleLogin(
+        [FromBody] GoogleLoginDto dto)
+        {
+            var result = await _mediator.Send(
+                new GoogleLoginCommand(dto.IdToken));
+
+            return Ok(ApiResponse<AuthResponseDto>.SuccessResponse(
+                result,
+                "Login successful"
             ));
         }
     }

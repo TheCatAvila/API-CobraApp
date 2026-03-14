@@ -26,6 +26,7 @@ builder.Services.AddControllers();
 
 // Swagger + JWT
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddSwaggerGen(options =>
 {
     const string securitySchema = "Bearer";
@@ -81,11 +82,28 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+
+
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<IEmailSender, BrevoEmailSender>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        policy =>
+        {
+            policy.AllowAnyOrigin()
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
+
+
 // Build app
 var app = builder.Build();
+
+
+app.UseCors("AllowAll");
 
 // Middleware
 if (app.Environment.IsDevelopment())

@@ -9,7 +9,7 @@ public class AppDbContextFactory
     {
         var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
 
-        optionsBuilder.UseSqlite("Data Source=users.db");
+        optionsBuilder.UseSqlite("Data Source=database.db");
 
         return new AppDbContext(optionsBuilder.Options);
     }

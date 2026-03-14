@@ -3,6 +3,7 @@ using System;
 using API_CobraApp.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_CobraApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260301161249_AddExternalLoginTables")]
+    partial class AddExternalLoginTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.2");
@@ -36,14 +39,6 @@ namespace API_CobraApp.Migrations
                         .IsUnique();
 
                     b.ToTable("ExternalProviders");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            IsEnabled = true,
-                            ProviderName = "Google"
-                        });
                 });
 
             modelBuilder.Entity("API_CobraApp.Domain.Entities.PasswordReset", b =>
